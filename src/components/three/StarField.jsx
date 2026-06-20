@@ -10,11 +10,11 @@ function Embers() {
     const pos = new Float32Array(count * 3)
     const col = new Float32Array(count * 3)
     const palette = [
-      new THREE.Color('#00e5ff'),
-      new THREE.Color('#aa44ff'),
-      new THREE.Color('#00ff88'),
-      new THREE.Color('#6633ff'),
-      new THREE.Color('#44ccff'),
+      new THREE.Color('#ff1a1a'),
+      new THREE.Color('#cc2200'),
+      new THREE.Color('#ff4400'),
+      new THREE.Color('#880000'),
+      new THREE.Color('#ff6644'),
       new THREE.Color('#ffffff'),
     ]
     for (let i = 0; i < count; i++) {

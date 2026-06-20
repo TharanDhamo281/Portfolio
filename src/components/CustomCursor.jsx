@@ -6,6 +6,9 @@ export default function CustomCursor() {
   const pos     = useRef({ x: 0, y: 0 })
   const ring    = useRef({ x: 0, y: 0 })
 
+  const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches
+  if (isTouch) return null
+
   /* Red-to-orange fire hue: HSL 0–20 deg = red to orange-red */
   const addTrail = useCallback((x, y) => {
     const el = document.createElement('div')

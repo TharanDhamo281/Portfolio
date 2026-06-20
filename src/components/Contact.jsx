@@ -5,7 +5,7 @@ import emailjs from '@emailjs/browser'
 import { personalInfo } from '../data/resume'
 
 const INPUT_CLASS =
-  'w-full bg-dark-card border border-dark-border text-slate-200 font-mono text-sm px-4 py-3 focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_8px_#00e5ff44] transition-all duration-200 placeholder-slate-600 resize-none'
+  'w-full bg-dark-card border border-dark-border text-slate-200 font-mono text-sm px-4 py-3 focus:outline-none focus:border-neon-cyan focus:shadow-[0_0_8px_#ff1a1a44] transition-all duration-200 placeholder-slate-600 resize-none'
 
 export default function Contact() {
   const formRef = useRef()
@@ -98,7 +98,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   whileHover={{ scale: 1.1, y: -3 }}
-                  className="w-12 h-12 border border-neon-cyan/30 flex items-center justify-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan hover:shadow-[0_0_12px_#00e5ff44] transition-all duration-200"
+                  className="w-12 h-12 border border-neon-cyan/30 flex items-center justify-center text-slate-400 hover:text-neon-cyan hover:border-neon-cyan hover:shadow-[0_0_12px_#ff1a1a44] transition-all duration-200"
                 >
                   <Icon size={18} />
                 </motion.a>

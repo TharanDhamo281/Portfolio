@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-scroll'
+import { playSynthSound } from './GamingHUD'
 
 const NAV_LINKS = [
   { label: 'Home',       to: 'hero' },
@@ -12,7 +13,7 @@ const NAV_LINKS = [
   { label: 'Contact',    to: 'contact' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ gamingMode, setGamingMode }) {
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
   const [active, setActive]       = useState('hero')
@@ -59,6 +60,22 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => {
+                const nextVal = !gamingMode
+                playSynthSound(nextVal ? 'toggleOn' : 'toggleOff', false)
+                setGamingMode(nextVal)
+              }}
+              className={`font-orbitron text-xs tracking-widest uppercase border px-3 py-1.5 transition-all duration-200 select-none ${
+                gamingMode 
+                  ? 'border-neon-cyan text-neon-cyan bg-neon-cyan/10 shadow-[0_0_10px_#00e5ff44]' 
+                  : 'border-slate-700 text-slate-400 hover:border-neon-cyan hover:text-neon-cyan'
+              }`}
+            >
+              🎮 {gamingMode ? 'HUD ON' : 'PLAY 3D HUD'}
+            </button>
+          </li>
         </ul>
 
         {/* Mobile toggle */}
@@ -93,6 +110,24 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            <li className="border-t border-neon-cyan/10 px-6 py-4 flex justify-between items-center bg-dark-bg/40">
+              <span className="font-mono text-xs text-slate-400 uppercase tracking-widest">3D HUD Mode:</span>
+              <button
+                onClick={() => {
+                  const nextVal = !gamingMode
+                  playSynthSound(nextVal ? 'toggleOn' : 'toggleOff', false)
+                  setGamingMode(nextVal)
+                  setMenuOpen(false)
+                }}
+                className={`font-orbitron text-xs tracking-widest uppercase border px-4 py-2 transition-all ${
+                  gamingMode 
+                    ? 'border-neon-cyan text-neon-cyan bg-neon-cyan/10 shadow-[0_0_8px_#00e5ff44]' 
+                    : 'border-slate-700 text-slate-400 hover:border-neon-cyan'
+                }`}
+              >
+                🎮 {gamingMode ? 'HUD ON' : 'PLAY HUD'}
+              </button>
+            </li>
           </motion.ul>
         )}
       </AnimatePresence>

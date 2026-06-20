@@ -5,11 +5,11 @@ import { personalInfo } from '../data/resume'
 function StatCard({ label, value, suffix, isActive }) {
   const count = useCountUp(value, 2000, isActive)
   return (
-    <div className="glass border border-neon-cyan/20 p-4 text-center">
-      <div className="font-orbitron font-bold text-3xl neon-text-cyan">
+    <div className="glass border border-neon-cyan/20 p-2 sm:p-4 text-center">
+      <div className="font-orbitron font-bold text-2xl sm:text-3xl neon-text-cyan">
         {count}{suffix}
       </div>
-      <div className="font-mono text-xs text-slate-400 uppercase tracking-widest mt-1">{label}</div>
+      <div className="font-mono text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest mt-1">{label}</div>
     </div>
   )
 }
@@ -76,7 +76,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <div className="glass border border-neon-cyan/10 p-6 mb-6 font-mono text-sm leading-relaxed">
+            <div className="glass border border-neon-cyan/10 p-4 sm:p-6 mb-6 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto">
               <div className="text-neon-purple mb-2">// profile.txt</div>
               <p className="text-slate-300">
                 <span className="text-neon-green">const</span>{' '}

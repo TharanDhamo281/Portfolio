@@ -9,7 +9,7 @@ const TAGS = [
   'Express.js','MySQL','GitHub CI','Pandas','Three.js',
 ]
 
-const COLORS = ['#00e5ff','#aa44ff','#00ff88','#44ccff','#cc88ff']
+const COLORS = ['#ff1a1a','#cc2200','#ff4400','#ff6644','#ff2222']
 
 function SkillTag({ text, phi, theta, radius, color, speed }) {
   const ref = useRef()
@@ -49,8 +49,8 @@ function SphereCore() {
     <mesh ref={mesh}>
       <icosahedronGeometry args={[1.2, 1]} />
       <meshStandardMaterial
-        color="#aa44ff"
-        emissive="#aa44ff"
+        color="#ff1a1a"
+        emissive="#ff1a1a"
         emissiveIntensity={0.4}
         wireframe
         transparent
@@ -79,8 +79,8 @@ function Scene() {
   return (
     <>
       <ambientLight intensity={0.4} />
-      <pointLight position={[5, 5, 5]} color="#00e5ff" intensity={2} />
-      <pointLight position={[-5, -5, 5]} color="#aa44ff" intensity={1.5} />
+      <pointLight position={[5, 5, 5]} color="#ff1a1a" intensity={2} />
+      <pointLight position={[-5, -5, 5]} color="#cc2200" intensity={1.5} />
       <SphereCore />
       {tags.map((t) => (
         <SkillTag key={t.text} {...t} />
@@ -89,10 +89,12 @@ function Scene() {
   )
 }
 
+const MOB = typeof window !== 'undefined' && window.innerWidth < 768
+
 export default function SkillSphere() {
   return (
     <Canvas
-      camera={{ position: [0, 0, 7], fov: 55 }}
+      camera={{ position: [0, 0, MOB ? 10.2 : 7], fov: 55 }}
       gl={{ antialias: false, alpha: true }}
       dpr={[1, 1]}
       style={{ width: '100%', height: '100%' }}

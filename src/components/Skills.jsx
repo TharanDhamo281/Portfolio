@@ -5,12 +5,12 @@ import { skills } from '../data/resume'
 const SkillSphere = lazy(() => import('./three/SkillSphere'))
 
 const CATEGORY_COLORS = {
-  Languages:          '#00e5ff',
-  Frontend:           '#aa44ff',
-  Backend:            '#00ff88',
-  'Databases & Cache':'#00e5ff',
-  'Cloud & DevOps':   '#aa44ff',
-  'AI & Data':        '#00ff88',
+  Languages:          '#ff1a1a',
+  Frontend:           '#cc2200',
+  Backend:            '#ff4400',
+  'Databases & Cache':'#ff1a1a',
+  'Cloud & DevOps':   '#cc2200',
+  'AI & Data':        '#ff4400',
 }
 
 function SkillBar({ name, level, color }) {
@@ -61,7 +61,7 @@ export default function Skills() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="h-[420px] mb-16 mx-auto max-w-2xl"
+          className="h-[280px] sm:h-[420px] mb-16 mx-auto max-w-2xl"
         >
           <Suspense
             fallback={
@@ -77,7 +77,7 @@ export default function Skills() {
         {/* Skill grids */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(skills).map(([category, items], ci) => {
-            const color = CATEGORY_COLORS[category] || '#00e5ff'
+            const color = CATEGORY_COLORS[category] || '#ff1a1a'
             return (
               <motion.div
                 key={category}

@@ -57,7 +57,7 @@ function ProjectCard({ project }) {
         {/* Back */}
         <div
           className="flip-card-back glass border p-6 flex flex-col justify-between"
-          style={{ borderColor: `${color}66`, background: `linear-gradient(135deg, ${color}08, #06021a)` }}
+          style={{ borderColor: `${color}66`, background: `linear-gradient(135deg, ${color}08, #020000)` }}
         >
           <div>
             <h3 className="font-orbitron font-bold text-sm mb-3" style={{ color }}>
@@ -132,7 +132,7 @@ export default function Projects() {
               onClick={() => setFilter(f)}
               className={`font-orbitron text-xs uppercase tracking-widest px-5 py-2 border transition-all duration-200 ${
                 filter === f
-                  ? 'border-neon-cyan text-neon-cyan bg-neon-cyan/10 shadow-[0_0_10px_#00e5ff44]'
+                  ? 'border-neon-cyan text-neon-cyan bg-neon-cyan/10 shadow-[0_0_10px_#ff1a1a44]'
                   : 'border-slate-600 text-slate-400 hover:border-neon-cyan/50 hover:text-neon-cyan/70'
               }`}
             >

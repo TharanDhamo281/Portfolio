@@ -691,10 +691,13 @@ function Scene({ mouseNorm }) {
 export default function ParticleField({ mouseNorm = { x: 0, y: 0 } }) {
   return (
     <Canvas
-      camera={{ position: [0, 4, 9.5], fov: MOB ? 70 : 62 }}
+      camera={{ 
+        position: MOB ? [0, 5.2, 11.2] : [0, 4, 9.5], 
+        fov: MOB ? 75 : 62 
+      }}
       gl={{ antialias: !MOB, alpha: true, powerPreference: 'high-performance' }}
       dpr={MOB ? 1 : [1, 1.5]}
-      onCreated={({ camera }) => camera.lookAt(0, 1, -4)}
+      onCreated={({ camera }) => camera.lookAt(0, MOB ? 1.6 : 1, -4)}
       style={{ width: '100%', height: '100%' }}
     >
       <Scene mouseNorm={mouseNorm} />

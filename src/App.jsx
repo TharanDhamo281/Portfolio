@@ -1,4 +1,4 @@
-import { useState, Suspense, lazy } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 import LoadingScreen from './components/LoadingScreen'
 import CustomCursor  from './components/CustomCursor'
 import Navbar        from './components/Navbar'
@@ -10,11 +10,26 @@ import Experience    from './components/Experience'
 import Contact       from './components/Contact'
 import Footer        from './components/Footer'
 import ChatBot       from './components/ChatBot'
+import GamingHUD     from './components/GamingHUD'
 
 const StarField = lazy(() => import('./components/three/StarField'))
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
+  const [gamingMode, setGamingMode] = useState(false)
+
+  useEffect(() => {
+    if (loaded) {
+      if (gamingMode) {
+        document.body.classList.add('gaming-mode')
+      } else {
+        document.body.classList.remove('gaming-mode')
+      }
+    }
+    return () => {
+      document.body.classList.remove('gaming-mode')
+    }
+  }, [gamingMode, loaded])
 
   return (
     <>
@@ -31,7 +46,7 @@ export default function App() {
 
           {/* Main content */}
           <div className="relative z-10">
-            <Navbar />
+            <Navbar gamingMode={gamingMode} setGamingMode={setGamingMode} />
             <main>
               <Hero />
               <About />
@@ -43,6 +58,7 @@ export default function App() {
             <Footer />
           </div>
           <ChatBot />
+          <GamingHUD isActive={gamingMode} onToggle={setGamingMode} />
         </>
       )}
     </>

@@ -4,11 +4,12 @@ import { Briefcase, GraduationCap, Award } from 'lucide-react'
 
 function TimelineCard({ item, index }) {
   const isLeft = index % 2 === 0
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, x: isMobile ? 0 : (isLeft ? -60 : 60), y: isMobile ? 30 : 0 }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, ease: 'easeOut', delay: index * 0.1 }}
       className={`relative flex ${isLeft ? 'lg:justify-end' : 'lg:justify-start'} mb-12`}
