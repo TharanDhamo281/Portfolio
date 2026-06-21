@@ -1,7 +1,8 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import { SYSTEM_PROMPT } from './api/_context.js'
+
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -9,23 +10,12 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
-      devApiPlugin(env.GEMINI_API_KEY),
+      devApiPlugin(env.GROQ_API_KEY),
     ],
   }
 })
 
 function devApiPlugin(apiKey) {
-  // Pre-build the model once so every request reuses it
-  let model = null
-  if (apiKey) {
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey)
-      model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' })
-    } catch (e) {
-      console.warn('[dev-api] Failed to init Gemini model:', e?.message)
-    }
-  }
-
   return {
     name: 'dev-api',
     apply: 'serve',
@@ -34,12 +24,7 @@ function devApiPlugin(apiKey) {
         res.setHeader('Content-Type', 'application/json')
         res.setHeader('Access-Control-Allow-Origin', '*')
 
-        if (req.method === 'OPTIONS') {
-          res.statusCode = 200
-          res.end()
-          return
-        }
-
+        if (req.method === 'OPTIONS') { res.statusCode = 200; res.end(); return }
         if (req.method !== 'POST') {
           res.statusCode = 405
           res.end(JSON.stringify({ error: 'Method not allowed.' }))
@@ -57,25 +42,40 @@ function devApiPlugin(apiKey) {
                 res.end(JSON.stringify({ error: 'Question is required.' }))
                 return
               }
-
               if (!apiKey) {
                 res.statusCode = 500
-                res.end(JSON.stringify({ error: 'GEMINI_API_KEY missing in .env.local — add it and restart the dev server.' }))
+                res.end(JSON.stringify({ error: 'GROQ_API_KEY missing in .env.local' }))
                 return
               }
 
-              if (!model) {
+              const response = await fetch(GROQ_URL, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${apiKey}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  model: 'llama-3.1-8b-instant',
+                  messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    { role: 'user',   content: question.trim() },
+                  ],
+                  max_tokens: 300,
+                  temperature: 0.7,
+                }),
+              })
+
+              const data = await response.json()
+              if (!response.ok) {
                 res.statusCode = 500
-                res.end(JSON.stringify({ error: 'Gemini model could not be initialised. Check your API key format.' }))
+                res.end(JSON.stringify({ error: `Groq: ${data?.error?.message || 'failed'}` }))
                 return
               }
 
-              const result = await model.generateContent(
-                `${SYSTEM_PROMPT}\n\nUser Question: ${question.trim()}`
-              )
-              res.end(JSON.stringify({ answer: result.response.text() }))
+              const answer = data.choices?.[0]?.message?.content
+              res.end(JSON.stringify({ answer }))
             } catch (err) {
-              console.error('[dev-api] Error:', err?.message)
+              console.error('[dev-api]', err?.message)
               res.statusCode = 500
               res.end(JSON.stringify({ error: err?.message ?? 'Request failed.' }))
             }
